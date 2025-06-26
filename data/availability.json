@@ -1,0 +1,50 @@
+[
+  {
+    "bank_code": "BANK_A",
+    "availability_percentage": 72,
+    "confidence_level": "High",
+    "time_window": "1h",
+    "last_calculated_at": "2025-06-26T22:22:16.512Z",
+    "total_transactions_in_window": 25,
+    "status_counts": {
+      "91": 7,
+      "00": 18
+    }
+  },
+  {
+    "bank_code": "BANK_B",
+    "availability_percentage": 48,
+    "confidence_level": "High",
+    "time_window": "1h",
+    "last_calculated_at": "2025-06-26T22:22:16.516Z",
+    "total_transactions_in_window": 25,
+    "status_counts": {
+      "91": 13,
+      "00": 12
+    }
+  },
+  {
+    "bank_code": "BANK_C",
+    "availability_percentage": 40,
+    "confidence_level": "High",
+    "time_window": "1h",
+    "last_calculated_at": "2025-06-26T22:22:16.520Z",
+    "total_transactions_in_window": 25,
+    "status_counts": {
+      "91": 15,
+      "00": 10
+    }
+  },
+  {
+    "bank_code": "BANK_D",
+    "availability_percentage": 56.00000000000001,
+    "confidence_level": "High",
+    "time_window": "1h",
+    "last_calculated_at": "2025-06-26T22:22:16.521Z",
+    "total_transactions_in_window": 25,
+    "status_counts": {
+      "91": 11,
+      "00": 14
+    }
+  }
+]
