@@ -18,7 +18,7 @@ import { BankAvailability } from '../common/interfaces/transaction.interface';
 import { BankAvailabilityDto } from './dto/bank-availability.dto';
 
 @ApiTags('banks-availability')
-@Controller('Availability')
+@Controller('banks')
 export class AvailabilityController {
   constructor(
     private readonly availabilityService: AvailabilityService,
@@ -122,6 +122,22 @@ export class AvailabilityController {
       '24h': 24,
     };
 
-    return windowMap[window] || 1; // Default to 1 hour if invalid
+    if (windowMap[window]) {
+      return windowMap[window];
+    }
+    const numericHours = parseInt(window, 10);
+    if (!isNaN(numericHours) && numericHours > 0 && numericHours <= 168) {
+      return numericHours;
+    }
+
+    const hourMatch = window.match(/^(\d+)h$/i);
+    if (hourMatch) {
+      const hours = parseInt(hourMatch[1], 10);
+      if (hours > 0 && hours <= 168) {
+        return hours;
+      }
+    }
+
+    return 1;
   }
 }
