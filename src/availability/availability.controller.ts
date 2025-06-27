@@ -17,8 +17,8 @@ import { TransactionsService } from '../transactions/transactions.service';
 import { BankAvailability } from '../common/interfaces/transaction.interface';
 import { BankAvailabilityDto } from './dto/bank-availability.dto';
 
-@ApiTags('banks')
-@Controller('banks')
+@ApiTags('banks-availability')
+@Controller('Availability')
 export class AvailabilityController {
   constructor(
     private readonly availabilityService: AvailabilityService,

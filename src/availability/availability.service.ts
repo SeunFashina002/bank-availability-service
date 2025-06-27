@@ -28,8 +28,10 @@ export class AvailabilityService {
     const totalRelevant =
       statusCounts[StatusCode.SUCCESS] + statusCounts[StatusCode.UNAVAILABLE];
 
-    const availabilityPercentage =
-      this.calculateAvailabilityPercentage(statusCounts);
+    const availabilityPercentage = this.calculateAvailabilityPercentage(
+      statusCounts,
+      totalRelevant,
+    );
 
     const confidenceLevel = this.calculateConfidenceLevel(totalRelevant);
 
@@ -83,10 +85,8 @@ export class AvailabilityService {
 
   private calculateAvailabilityPercentage(
     statusCounts: TransactionStatus,
+    totalRelevant: number,
   ): number | null {
-    const totalRelevant =
-      statusCounts[StatusCode.SUCCESS] + statusCounts[StatusCode.UNAVAILABLE];
-
     if (totalRelevant === 0) {
       return null; // Insufficient data
     }
@@ -118,7 +118,7 @@ export class AvailabilityService {
   ): Promise<BankAvailability[]> {
     const allTransactions = await this.storageService.loadTransactions();
     const uniqueBankCodes = [
-      ...new Set(allTransactions.map((t) => t.bank_code)),
+      ...new Set(allTransactions.map((transaction) => transaction.bank_code)),
     ];
 
     const availabilities: BankAvailability[] = [];
