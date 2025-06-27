@@ -30,7 +30,7 @@ export class TransactionsService {
       transactions.push(...bankTransactions);
     }
 
-    await this.storageService.saveTransactions(transactions);
+    await this.storageService.addTransaction(transactions);
     return transactions;
   }
 
@@ -66,13 +66,5 @@ export class TransactionsService {
 
   async getTransactionsByBank(bankCode: string): Promise<Transaction[]> {
     return await this.storageService.getTransactionsByBank(bankCode);
-  }
-
-  async addTransaction(transaction: Transaction): Promise<void> {
-    await this.storageService.addTransaction(transaction);
-  }
-
-  async clearTransactions(): Promise<void> {
-    await this.storageService.saveTransactions([]);
   }
 }
