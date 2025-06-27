@@ -82,9 +82,17 @@ export class StorageService {
     }
   }
 
-  async addTransaction(transaction: Transaction): Promise<void> {
+  async addTransaction(
+    transaction: Transaction | Transaction[],
+  ): Promise<void> {
     const transactions = await this.loadTransactions();
-    transactions.push(transaction);
+
+    if (Array.isArray(transaction)) {
+      transactions.push(...transaction);
+    } else {
+      transactions.push(transaction);
+    }
+
     await this.saveTransactions(transactions);
   }
 
