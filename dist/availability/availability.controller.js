@@ -51,7 +51,21 @@ let AvailabilityController = class AvailabilityController {
             '6h': 6,
             '24h': 24,
         };
-        return windowMap[window] || 1;
+        if (windowMap[window]) {
+            return windowMap[window];
+        }
+        const numericHours = parseInt(window, 10);
+        if (!isNaN(numericHours) && numericHours > 0 && numericHours <= 168) {
+            return numericHours;
+        }
+        const hourMatch = window.match(/^(\d+)h$/i);
+        if (hourMatch) {
+            const hours = parseInt(hourMatch[1], 10);
+            if (hours > 0 && hours <= 168) {
+                return hours;
+            }
+        }
+        return 1;
     }
 };
 exports.AvailabilityController = AvailabilityController;
@@ -110,7 +124,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AvailabilityController.prototype, "getAllBanksAvailability", null);
 exports.AvailabilityController = AvailabilityController = __decorate([
-    (0, swagger_1.ApiTags)('banks'),
+    (0, swagger_1.ApiTags)('banks-availability'),
     (0, common_1.Controller)('banks'),
     __metadata("design:paramtypes", [availability_service_1.AvailabilityService,
         transactions_service_1.TransactionsService])

@@ -74,7 +74,12 @@ let StorageService = class StorageService {
     }
     async addTransaction(transaction) {
         const transactions = await this.loadTransactions();
-        transactions.push(transaction);
+        if (Array.isArray(transaction)) {
+            transactions.push(...transaction);
+        }
+        else {
+            transactions.push(transaction);
+        }
         await this.saveTransactions(transactions);
     }
     async updateAvailability(availability) {

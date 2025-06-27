@@ -27,7 +27,7 @@ let TransactionsService = class TransactionsService {
             const bankTransactions = this.generateBankTransactions(bankCode, now, timeWindowHours);
             transactions.push(...bankTransactions);
         }
-        await this.storageService.saveTransactions(transactions);
+        await this.storageService.addTransaction(transactions);
         return transactions;
     }
     generateBankTransactions(bankCode, baseTime, hours) {
@@ -49,12 +49,6 @@ let TransactionsService = class TransactionsService {
     }
     async getTransactionsByBank(bankCode) {
         return await this.storageService.getTransactionsByBank(bankCode);
-    }
-    async addTransaction(transaction) {
-        await this.storageService.addTransaction(transaction);
-    }
-    async clearTransactions() {
-        await this.storageService.saveTransactions([]);
     }
 };
 exports.TransactionsService = TransactionsService;

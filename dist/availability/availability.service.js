@@ -22,7 +22,7 @@ let AvailabilityService = class AvailabilityService {
         const recentTransactions = this.filterTransactionsByTimeWindow(allTransactions, timeWindowHours);
         const statusCounts = this.countTransactionStatuses(recentTransactions);
         const totalRelevant = statusCounts[transaction_interface_1.StatusCode.SUCCESS] + statusCounts[transaction_interface_1.StatusCode.UNAVAILABLE];
-        const availabilityPercentage = this.calculateAvailabilityPercentage(statusCounts);
+        const availabilityPercentage = this.calculateAvailabilityPercentage(statusCounts, totalRelevant);
         const confidenceLevel = this.calculateConfidenceLevel(totalRelevant);
         const availability = {
             bank_code: bankCode,
@@ -57,8 +57,7 @@ let AvailabilityService = class AvailabilityService {
         });
         return counts;
     }
-    calculateAvailabilityPercentage(statusCounts) {
-        const totalRelevant = statusCounts[transaction_interface_1.StatusCode.SUCCESS] + statusCounts[transaction_interface_1.StatusCode.UNAVAILABLE];
+    calculateAvailabilityPercentage(statusCounts, totalRelevant) {
         if (totalRelevant === 0) {
             return null;
         }
@@ -85,7 +84,7 @@ let AvailabilityService = class AvailabilityService {
     async getAllBanksAvailability(timeWindowHours = 1) {
         const allTransactions = await this.storageService.loadTransactions();
         const uniqueBankCodes = [
-            ...new Set(allTransactions.map((t) => t.bank_code)),
+            ...new Set(allTransactions.map((transaction) => transaction.bank_code)),
         ];
         const availabilities = [];
         for (const bankCode of uniqueBankCodes) {

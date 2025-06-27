@@ -8,7 +8,7 @@ export declare class StorageService {
     loadTransactions(): Promise<Transaction[]>;
     saveAvailability(availabilityData: BankAvailability[]): Promise<void>;
     loadAvailability(): Promise<BankAvailability[]>;
-    addTransaction(transaction: Transaction): Promise<void>;
+    addTransaction(transaction: Transaction | Transaction[]): Promise<void>;
     updateAvailability(availability: BankAvailability): Promise<void>;
     getTransactionsByBank(bankCode: string): Promise<Transaction[]>;
 }

@@ -10,6 +10,4 @@ export declare class TransactionsService {
     private generateBankTransactions;
     getAllTransactions(): Promise<Transaction[]>;
     getTransactionsByBank(bankCode: string): Promise<Transaction[]>;
-    addTransaction(transaction: Transaction): Promise<void>;
-    clearTransactions(): Promise<void>;
 }
