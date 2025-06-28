@@ -168,6 +168,9 @@ npm test -- --testPathPattern=storage.service.spec.ts
 # Test availability service
 npm test -- --testPathPattern=availability.service.spec.ts
 
+# Test transaction service
+npm test -- --testPathPattern=transactions.service.spec.ts
+
 # Test controller
 npm test -- --testPathPattern=availability.controller.spec.ts
 ```
