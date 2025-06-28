@@ -41,6 +41,9 @@ export class StorageService {
   async loadTransactions(): Promise<Transaction[]> {
     try {
       const data = await fs.readFile(this.transactionsFile, 'utf8');
+      if (!data.trim()) {
+        return [];
+      }
       return JSON.parse(data);
     } catch (error) {
       if (error.code === 'ENOENT') {
@@ -70,6 +73,9 @@ export class StorageService {
   async loadAvailability(): Promise<BankAvailability[]> {
     try {
       const data = await fs.readFile(this.availabilityFile, 'utf8');
+      if (!data.trim()) {
+        return [];
+      }
       return JSON.parse(data);
     } catch (error) {
       if (error.code === 'ENOENT') {
