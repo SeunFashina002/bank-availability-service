@@ -1,99 +1,237 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Bank Availability Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust NestJS service that calculates and reports bank availability based on transaction data. This service processes transaction status codes to determine bank health and provides real-time availability metrics through a RESTful API.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🎯 Project Overview
 
-## Description
+This service addresses the challenge of monitoring bank availability by:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- Processing transaction status data for different banks
+- Calculating availability percentages over configurable time windows
+- Providing confidence levels for availability scores
+- Exposing availability data through a simple, well-documented API
 
-## Project setup
+## 🛠 Technology Stack
+
+- **Framework**: [NestJS](https://nestjs.com/) - A progressive Node.js framework
+- **Language**: [TypeScript](https://www.typescriptlang.org/) - For type safety and better developer experience
+- **Testing**: [Jest](https://jestjs.io/) - Comprehensive testing framework
+- **API Documentation**: [Swagger/OpenAPI](https://swagger.io/) - Interactive API documentation
+- **Storage**: JSON file-based persistence for simplicity and portability
+
+## 📋 Features
+
+### Core Functionality
+
+- ✅ Bank availability calculation based on transaction status codes
+- ✅ Availability expressed as percentage (0-100%)
+- ✅ Configurable time windows (1h, 6h, 24h, or custom hours)
+- ✅ Confidence level assessment (Insufficient Data, Low, Medium, High)
+- ✅ RESTful API endpoints for single bank and all banks
+- ✅ Persistent data storage using JSON files
+- ✅ Comprehensive error handling
+
+### Status Code Support
+
+- **"00"**: Successful transaction (counts towards available)
+- **"91"**: Beneficiary bank unavailable (counts towards unavailable)
+- Other status codes are filtered out for calculation purposes
+
+### API Endpoints
+
+- `GET /banks/{bank_code}/availability` - Get availability for a specific bank
+- `GET /banks/availability` - Get availability for all banks
+- Both endpoints support optional `window` query parameter
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+
+### Installation Steps
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd bank-availability-service
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Build the project**
+   ```bash
+   npm run build
+   ```
+
+## 🏃‍♂️ Running the Service
+
+### Development Mode
 
 ```bash
-$ npm install
+npm run start:dev
 ```
 
-## Compile and run the project
+The service will start on `http://localhost:3000` with hot reload enabled.
+
+### Production Mode
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run start:prod
 ```
 
-## Run tests
+### Debug Mode
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run start:debug
 ```
 
-## Deployment
+## 📚 API Documentation
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+Once the service is running, you can access the interactive Swagger documentation at:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+```
+http://localhost:3000/api/docs
+```
+
+### Endpoint Examples
+
+#### Get Bank Availability
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+# Get availability for BANK_A with default 1-hour window
+curl http://localhost:3000/banks/BANK_A/availability
+
+# Get availability with custom 6-hour window
+curl http://localhost:3000/banks/BANK_A/availability?window=6h
+
+# Get availability with numeric window (12 hours)
+curl http://localhost:3000/banks/BANK_A/availability?window=12
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### Get All Banks Availability
 
-## Resources
+```bash
+# Get availability for all banks with 24-hour window
+curl http://localhost:3000/banks/availability?window=24h
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+### Response Format
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```json
+{
+  "bank_code": "BANK_A",
+  "availability_percentage": 85.5,
+  "confidence_level": "High",
+  "time_window": "1h",
+  "last_calculated_at": "2024-01-01T10:30:00Z",
+  "total_transactions_in_window": 100,
+  "status_counts": {
+    "00": 85,
+    "91": 15
+  }
+}
+```
 
-## Support
+## 🧪 Testing
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Run All Tests
 
-## Stay in touch
+```bash
+npm test
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Run Tests in Watch Mode
 
-## License
+```bash
+npm run test:watch
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Run Tests with Coverage
+
+```bash
+npm run test:cov
+```
+
+### Run Specific Test Files
+
+```bash
+# Test storage service
+npm test -- --testPathPattern=storage.service.spec.ts
+
+# Test availability service
+npm test -- --testPathPattern=availability.service.spec.ts
+
+# Test controller
+npm test -- --testPathPattern=availability.controller.spec.ts
+```
+
+### Test Coverage Results
+
+Current test coverage:
+
+- **Overall**: 84.93% statements, 82.92% branches, 97.36% functions, 86% lines
+- **Availability Service**: 100% coverage
+- **Transactions Service**: 100% coverage
+- **Storage Service**: 94% statements, 100% branches, 100% functions
+- **Controller**: 89.74% statements, 61.53% branches, 100% functions
+
+## 🏗 Architecture & Design Decisions
+
+### Service Architecture
+
+### Key Design Decisions
+
+1. **JSON File Storage**: Chose JSON files over in-memory storage for persistence and data portability
+2. **Service Layer Separation**: Separated business logic (services) from HTTP handling (controllers)
+3. **TypeScript Interfaces**: Used strict typing for better code quality and developer experience
+4. **Comprehensive Testing**: Implemented unit tests for all business logic and integration tests for API endpoints
+5. **Flexible Time Windows**: Support for multiple time windows (1h, 6h, 24h, custom) as a bonus feature
+6. **Error Handling**: Proper HTTP status codes and meaningful error messages
+
+### Availability Calculation Logic
+
+1. **Filter transactions** by time window and bank code
+2. **Count status codes**: "00" (success) and "91" (unavailable)
+3. **Calculate percentage**: `(successful_transactions / total_relevant_transactions) * 100`
+4. **Determine confidence level**:
+   - 0 transactions: "Insufficient Data"
+   - 1-5 transactions: "Low"
+   - 6-20 transactions: "Medium"
+   - > 20 transactions: "High"
+
+## 🔧 Configuration
+
+### Environment Variables
+
+The service uses default configurations, but you can customize:
+
+- Port: Default 3000
+- Data directory: `./data/` (auto-created)
+- Sample data generation: Automatic when no transactions exist
+
+### Data Files
+
+- `data/transactions.json` - Stored transaction data
+- `data/availability.json` - Cached availability calculations
+
+## 🚀 Bonus Features Implemented
+
+1. **Multiple Time Windows**: Support for 1h, 6h, 24h, and custom hour windows
+2. **All Banks Endpoint**: `GET /banks/availability` returns data for all monitored banks
+3. **Persistent Storage**: JSON file-based storage with automatic data generation
+4. **Comprehensive Testing**: Unit tests, integration tests, and 84%+ coverage
+5. **API Documentation**: Interactive Swagger documentation
+6. **Error Handling**: Proper HTTP status codes and validation
+
+## 🎉 Acknowledgments
+
+- Built with [NestJS](https://nestjs.com/) framework
+- Testing powered by [Jest](https://jestjs.io/)
+- API documentation with [Swagger](https://swagger.io/)
