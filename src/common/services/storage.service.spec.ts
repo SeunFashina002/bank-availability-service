@@ -99,6 +99,22 @@ describe('StorageService', () => {
       expect(result).toEqual([]);
     });
 
+    it('should return empty array when file is empty', async () => {
+      mockFs.readFile.mockResolvedValue('');
+
+      const result = await service.loadTransactions();
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return empty array when file contains only whitespace', async () => {
+      mockFs.readFile.mockResolvedValue('   \n\t  ');
+
+      const result = await service.loadTransactions();
+
+      expect(result).toEqual([]);
+    });
+
     it('should throw InternalServerErrorException when file read fails for other reasons', async () => {
       const error = new Error('Permission denied');
       (error as any).code = 'EACCES';
@@ -152,6 +168,22 @@ describe('StorageService', () => {
       const error = new Error('File not found');
       (error as any).code = 'ENOENT';
       mockFs.readFile.mockRejectedValue(error);
+
+      const result = await service.loadAvailability();
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return empty array when file is empty', async () => {
+      mockFs.readFile.mockResolvedValue('');
+
+      const result = await service.loadAvailability();
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return empty array when file contains only whitespace', async () => {
+      mockFs.readFile.mockResolvedValue('   \n\t  ');
 
       const result = await service.loadAvailability();
 
@@ -262,7 +294,9 @@ describe('StorageService', () => {
       const result = await service.getTransactionsByBank('TEST001');
 
       expect(result).toHaveLength(2);
-      expect(result.every((transaction) => transaction.bank_code === 'TEST001')).toBe(true);
+      expect(
+        result.every((transaction) => transaction.bank_code === 'TEST001'),
+      ).toBe(true);
     });
 
     it('should return empty array when bank has no transactions', async () => {
